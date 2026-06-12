@@ -43,4 +43,10 @@ public class ScriptController {
         scriptService.deleteScript(id);
         return ResponseEntity.noContent().build();
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(500).body("Error: " + e.getMessage() + " | Cause: " + (e.getCause() != null ? e.getCause().getMessage() : ""));
+    }
 }

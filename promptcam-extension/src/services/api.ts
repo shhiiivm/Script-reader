@@ -6,6 +6,11 @@ export const api = {
     if (!res.ok) throw new Error('Failed to fetch scripts');
     return res.json();
   },
+  getScriptById: async (id: string) => {
+    const res = await fetch(`${API_BASE}/${id}`);
+    if (!res.ok) throw new Error('Failed to fetch script');
+    return res.json();
+  },
   
   createScript: async (data: { title: string, content: string }) => {
     const res = await fetch(API_BASE, {

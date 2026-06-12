@@ -4,7 +4,7 @@ import com.promptcam.entity.Script;
 import com.promptcam.repository.ScriptRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -30,8 +30,8 @@ public class ScriptService {
     }
 
     public Script createScript(Script script) throws ExecutionException, InterruptedException {
-        script.setCreatedAt(LocalDateTime.now());
-        script.setUpdatedAt(LocalDateTime.now());
+        script.setCreatedAt(Instant.now().toString());
+        script.setUpdatedAt(Instant.now().toString());
         return scriptRepository.save(script);
     }
 
@@ -39,7 +39,7 @@ public class ScriptService {
         Script script = getScriptById(id);
         script.setTitle(scriptDetails.getTitle());
         script.setContent(scriptDetails.getContent());
-        script.setUpdatedAt(LocalDateTime.now());
+        script.setUpdatedAt(Instant.now().toString());
         return scriptRepository.save(script);
     }
 

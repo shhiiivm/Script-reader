@@ -5,6 +5,7 @@ import { Plus, Play, Trash2, Edit2, Save } from 'lucide-react';
 export default function Popup() {
   const [scripts, setScripts] = useState<any[]>([]);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
@@ -35,11 +36,13 @@ export default function Popup() {
         await api.createScript({ title, content });
       }
       setEditingId(null);
+      setIsCreating(false);
       setTitle('');
       setContent('');
       loadScripts();
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
+      alert('Failed to save script. Is the backend running? Error: ' + e.message);
     } finally {
       setLoading(false);
     }
@@ -62,15 +65,7 @@ export default function Popup() {
   };
 
   const startTeleprompter = (script: any) => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      const activeTab = tabs[0];
-      if (activeTab.id) {
-        chrome.tabs.sendMessage(activeTab.id, {
-          action: 'TOGGLE_TELEPROMPTER',
-          script: script
-        });
-      }
-    });
+    chrome.tabs.create({ url: chrome.runtime.getURL(`studio.html?scriptId=${script.id}`) });
   };
 
   return (
@@ -78,7 +73,7 @@ export default function Popup() {
       <header className="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
         <h1 className="text-xl font-bold">PromptCam</h1>
         <button 
-          onClick={() => { setEditingId(null); setTitle(''); setContent(''); }}
+          onClick={() => { setIsCreating(true); setEditingId(null); setTitle(''); setContent(''); }}
           className="bg-blue-500 hover:bg-blue-400 p-2 rounded-full transition"
           title="New Script"
         >
@@ -87,7 +82,7 @@ export default function Popup() {
       </header>
 
       <main className="flex-1 overflow-y-auto p-4">
-        {editingId !== null || title || content ? (
+        {editingId !== null || isCreating ? (
           <div className="space-y-4">
             <input
               type="text"
@@ -112,7 +107,7 @@ export default function Popup() {
                 <Save size={18} /> {loading ? 'Saving...' : 'Save Script'}
               </button>
               <button 
-                onClick={() => { setEditingId(null); setTitle(''); setContent(''); }}
+                onClick={() => { setIsCreating(false); setEditingId(null); setTitle(''); setContent(''); }}
                 className="px-4 bg-gray-200 text-gray-700 py-2 rounded font-semibold hover:bg-gray-300 transition"
               >
                 Cancel

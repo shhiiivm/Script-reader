@@ -4,6 +4,8 @@ import { crx } from '@crxjs/vite-plugin'
 import tailwindcss from '@tailwindcss/vite'
 import manifest from './manifest.json'
 
+import { resolve } from 'path'
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -11,4 +13,11 @@ export default defineConfig({
     react(),
     crx({ manifest }),
   ],
+  build: {
+    rollupOptions: {
+      input: {
+        studio: resolve(__dirname, 'studio.html')
+      }
+    }
+  }
 })
