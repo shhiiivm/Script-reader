@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:8080/api/scripts';
+const API_BASE = 'https://script-reader-kdk3.onrender.com/api/scripts';
 
 export const api = {
   getScripts: async () => {
