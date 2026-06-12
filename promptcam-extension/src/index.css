@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+body#promptcam-popup-body {
+  width: 400px;
+  height: 500px;
+  background-color: #f8fafc;
+  margin: 0;
+  padding: 0;
+}

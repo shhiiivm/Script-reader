@@ -1,0 +1,7 @@
+com\promptcam\controller\ScriptController.class
+com\promptcam\repository\ScriptRepository.class
+com\promptcam\service\ScriptService.class
+com\promptcam\PromptcamApplication.class
+com\promptcam\config\FirebaseConfig.class
+com\promptcam\config\WebConfig.class
+com\promptcam\entity\Script.class
